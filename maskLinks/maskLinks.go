@@ -19,7 +19,7 @@ func maskLinks(input string) string {
 			i += 7 // Пропускаем "http://"
 
 			// Маскируем ссылку и добавляем * в buffer
-			for (i < len(input)) && (input[i] != ' ') { // || (input[i] != '\n')
+			for (i < len(input)) && (input[i] != ' ') {
 				buffer = append(buffer, '*')
 				i++
 			}
