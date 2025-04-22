@@ -4,7 +4,9 @@ import (
 	"log"
 	"os"
 
-	"main.go/OOP/service"
+	"main.go/presenter"
+	"main.go/producer"
+	"main.go/service"
 )
 
 func main() {
@@ -19,8 +21,8 @@ func main() {
 		outputFilePath = os.Args[2]
 	}
 
-	producer := service.NewFileProducer(inputFilePath)
-	presenter := service.NewFilePresenter(outputFilePath)
+	producer := producer.NewFileProducer(inputFilePath)
+	presenter := presenter.NewFilePresenter(outputFilePath)
 	svc := service.NewService(producer, presenter)
 
 	if err := svc.Run(); err != nil {
