@@ -1,7 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"log"
+	"os"
+	"strings"
 )
 
 // maskLinks принимает строку и маскирует ссылки, начинающиеся с http://
@@ -35,7 +39,17 @@ func maskLinks(input string) string {
 }
 
 func main() {
-	inputmaskLinks := "Here's my spammy page: http://hehefouls.netHAHAHA see you."
-	output := maskLinks(inputmaskLinks)
-	fmt.Println(output) // Ожидаемый вывод: Here's my spammy page: http://******************* see you.
+
+	reader := bufio.NewReader(os.Stdin)
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// inputmaskLinks := "Here's my spammy page: http://hehefouls.netHAHAHA see you."
+	// output := maskLinks(inputmaskLinks)
+
+	output := maskLinks(strings.TrimSpace(input)) // Удаляем лишние пробелы в начале и конце строки
+
+	fmt.Println(output)
 }
