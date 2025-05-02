@@ -25,6 +25,7 @@ func main() {
 	presenter := presenter.NewFilePresenter(outputFilePath)
 	svc := service.NewService(producer, presenter)
 
+	svc.Run()
 	if err := svc.Run(); err != nil {
 		log.Fatalf("Error running service: %v", err)
 	}

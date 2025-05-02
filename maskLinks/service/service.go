@@ -22,13 +22,20 @@ func NewService(prod Producer, pres Presenter) *Service {
 
 // главный метод запуска
 func (s *Service) Run() error {
+
+	// Достаем []string из txt файла
 	lines, err := s.prod.Produce()
 	if err != nil {
 		return fmt.Errorf("error producing data: %w", err)
 	}
 
-	maskedLines := s.maskLinksSlice(lines)
+	// Вызываем метод MaskLinks для маскировки
+	maskedLines := make([]string, len(lines))
+	for i, line := range lines {
+		maskedLines[i] = s.MaskLinks(line)
+	}
 
+	// Записываем в txt файл
 	if err := s.pres.Present(maskedLines); err != nil {
 		return fmt.Errorf("error presenting data: %w", err)
 	}
@@ -37,16 +44,16 @@ func (s *Service) Run() error {
 }
 
 // maskLinksFunc маскирует ссылки каждой строки []string
-func (s *Service) maskLinksSlice(input []string) []string {
-	var maskedLines []string
-	for _, line := range input {
-		maskedLines = append(maskedLines, maskLinks(line))
-	}
-	return maskedLines
-}
+// func (s *Service) MaskLinksSlice(input []string) []string {
+// 	var maskedLines []string
+// 	for _, line := range input {
+// 		maskedLines = append(maskedLines, MaskLinks(line))
+// 	}
+// 	return maskedLines
+// }
 
 // maskLinks принимает строку и маскирует ссылки, начинающиеся с http://
-func maskLinks(input string) string {
+func (s *Service) MaskLinks(input string) string {
 
 	buffer := make([]byte, 0, len(input))
 
