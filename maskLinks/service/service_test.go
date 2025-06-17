@@ -1,6 +1,7 @@
 package service
 
 import (
+	"bytes"
 	"errors"
 	"testing"
 
@@ -107,6 +108,7 @@ func TestService_MaskLinks(t *testing.T) {
 		name     string
 		input    string
 		expected string
+		buf      bytes.Buffer
 	}{
 		{
 			name:     "no links",
@@ -146,7 +148,7 @@ func TestService_MaskLinks(t *testing.T) {
 			serv := NewService(nil, nil)
 
 			// Act
-			result := serv.MaskLinks(tt.input)
+			result := serv.MaskLinksWithBuffer(tt.input, &tt.buf)
 
 			// Assert
 			assert.Equal(t, tt.expected, result)
